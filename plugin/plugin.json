@@ -5,6 +5,7 @@
   "version": "1.2.0",
   "logo": "assets/logo.svg",
   "author": "houleelen",
+  "license": "MIT",
   "repository": "https://github.com/Houleelen/Context-glance-For-Antigravity",
   "homepage": "https://github.com/Houleelen/Context-glance-For-Antigravity#readme",
   "keywords": ["context", "tokens", "sidecar", "dashboard"]

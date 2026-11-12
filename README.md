@@ -42,7 +42,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
 
 默认安装位置为 `%USERPROFILE%\.gemini\config\plugins\context-glance`。在 Antigravity 的会话标题 `+` / 扩展菜单打开 **上下文仪表盘**。更新后关闭并重新打开面板；宿主尚未发现插件时可重新打开应用。
 
-安装器只复制八个运行文件及 README，并核对 SHA256，不修改全局配置或其他插件。检查已安装文件：
+安装器只复制八个运行文件及 README、LICENSE，并核对 SHA256，不修改全局配置或其他插件。检查已安装文件：
 
 ```powershell
 .\Install.ps1 -CheckOnly
@@ -100,6 +100,6 @@ node test/visual-check.mjs
 
 ## 许可
 
-作者：houleelen。本项目不提供开源许可证（No license），作者保留所有权利；`package.json` 标记为 `UNLICENSED`。变更记录见 [CHANGELOG](CHANGELOG.md)。
+作者：houleelen。本项目按 [MIT 许可证](LICENSE) 分发。变更记录见 [CHANGELOG](CHANGELOG.md)。
 
 本项目为独立第三方工具，与 Google 无隶属关系。

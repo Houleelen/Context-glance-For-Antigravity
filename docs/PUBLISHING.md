@@ -2,7 +2,7 @@
 
 本项目的目标地址为 `https://github.com/Houleelen/Context-glance-For-Antigravity`，与当前 Git 的 origin 一致。是否已上传以远端实际内容为准。如果实际账号或仓库名不同，先修改 `plugin/plugin.json` 中的 `repository`、`homepage` 与 README 安装链接。
 
-作者为 houleelen，不提供开源许可证（No license），作者保留所有权利。`package.json` 的 `UNLICENSED` 表示不授予开源许可。运行文件保留在 `plugin/`，不要添加第二份根 manifest；GitHub 安装链接应指向 `tree/main/plugin`。
+作者为 houleelen，采用 MIT 许可证；根目录与插件目录均包含完整授权文本。运行文件保留在 `plugin/`，不要添加第二份根 manifest；GitHub 安装链接应指向 `tree/main/plugin`。
 
 ## 上传前检查
 
@@ -22,7 +22,7 @@ agy plugin validate --strict ./plugin
 
 ## 建立仓库并上传源码
 
-在 GitHub 创建空仓库 `Context-glance-For-Antigravity`，License 选择 None，不预先生成另一份 README。然后在本项目目录执行以下命令（若已经初始化仓库，省略 `git init`；若已有提交，按实际修改提交）：
+在 GitHub 创建空仓库 `Context-glance-For-Antigravity`，不要预先生成 README 或 LICENSE，本地已经包含这些文件和 MIT 授权。然后在本项目目录执行以下命令（若已经初始化仓库，省略 `git init`；若已有提交，按实际修改提交）：
 
 ```powershell
 git init -b main

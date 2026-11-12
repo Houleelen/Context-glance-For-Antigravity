@@ -19,4 +19,4 @@
 
 用量和模型读取依赖宿主内部协议，升级后可能不可用。元数据接口可能返回额外本机字段；插件只保留数值和模型身份，其余字段不保存或传给模型。面板隐藏后停止轮询，后端约 12 秒空闲后回收订阅。
 
-作者 houleelen。本项目不提供开源许可证（No license），作者保留所有权利。完整源码、截图、发布与兼容性文档位于 `https://github.com/Houleelen/Context-glance-For-Antigravity`。
+作者 houleelen。本项目按 [MIT 许可证](LICENSE) 分发。完整源码、截图、发布与兼容性文档位于 `https://github.com/Houleelen/Context-glance-For-Antigravity`。

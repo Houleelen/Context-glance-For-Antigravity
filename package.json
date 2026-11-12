@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "private": true,
   "author": "houleelen",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": "https://github.com/Houleelen/Context-glance-For-Antigravity",
   "type": "module",
   "scripts": {

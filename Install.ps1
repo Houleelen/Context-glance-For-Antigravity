@@ -29,6 +29,7 @@ $destinationDirectory = [IO.Path]::GetFullPath((Join-Path $destinationParent $pl
 
 $allowedFiles = @(
     'plugin.json',
+    'LICENSE',
     'README.md',
     'assets/logo.svg',
     'sidecars/context_glance/sidecar.json',

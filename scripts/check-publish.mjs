@@ -32,22 +32,20 @@ for (const file of files) {
   if (!file.endsWith('.png')) texts.set(file, await text(file));
 }
 const manifest = await json('plugin/plugin.json');
-for (const field of ['name', 'displayName', 'description', 'version', 'logo', 'author', 'repository', 'homepage']) {
+for (const field of ['name', 'displayName', 'description', 'version', 'logo', 'author', 'license', 'repository', 'homepage']) {
   assert.ok(typeof manifest[field] === 'string' && manifest[field].trim(), `Missing manifest field: ${field}`);
 }
 assert.equal(manifest.name, 'context-glance');
 assert.match(manifest.name, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 assert.match(manifest.version, /^\d+\.\d+\.\d+$/);
-assert.equal(Object.hasOwn(manifest, 'license'), false, 'No open-source license should be declared');
-assert.equal((await json('package.json')).license, 'UNLICENSED');
+assert.equal(manifest.license, 'MIT');
+assert.equal((await json('package.json')).license, 'MIT');
 assert.equal(manifest.author, 'houleelen');
 for (const field of ['repository', 'homepage']) assert.equal(new URL(manifest[field]).protocol, 'https:');
 assert.equal(manifest.logo, 'assets/logo.svg');
 await access(resolve(root, 'plugin', manifest.logo));
-for (const file of ['LICENSE', 'plugin/LICENSE']) {
-  const exists = await lstat(resolve(root, file)).then(() => true, error => { if (error.code === 'ENOENT') return false; throw error; });
-  assert.equal(exists, false, `Unexpected license grant: ${file}`);
-}
+assert.ok((await text('LICENSE')).includes('Copyright (c) 2026 houleelen'));
+assert.equal(await text('plugin/LICENSE'), await text('LICENSE'), 'Plugin bundle must include the project license');
 assert.equal((await json('package.json')).version, manifest.version);
 const sidecar = await json('plugin/sidecars/context_glance/sidecar.json');
 assert.equal(sidecar.env.CONTEXT_GLANCE_UI_VERSION, manifest.version);
@@ -75,7 +73,7 @@ for (const file of files.filter(file => /\.(?:mjs|js)$/.test(file))) {
 }
 console.log(JSON.stringify({
   status: 'passed', version: manifest.version, author: manifest.author,
-  license: 'none (UNLICENSED)', publishFiles: files.length,
+  license: manifest.license, publishFiles: files.length,
   repository: manifest.repository,
   officialStrictValidation: 'not-run; run agy plugin validate --strict ./plugin separately',
 }, null, 2));
