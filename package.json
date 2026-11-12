@@ -1,0 +1,15 @@
+{
+  "name": "context-glance-workspace",
+  "version": "1.2.0",
+  "private": true,
+  "author": "houleelen",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/Houleelen/Context-glance-For-Antigravity",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check:publish": "node scripts/check-publish.mjs",
+    "test:visual": "node test/visual-check.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

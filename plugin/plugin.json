@@ -1,0 +1,11 @@
+{
+  "name": "context-glance",
+  "displayName": "上下文仪表盘",
+  "description": "在辅助侧栏只读显示当前会话的宿主上下文估算、压缩预算占比与最近请求用量。",
+  "version": "1.2.0",
+  "logo": "assets/logo.svg",
+  "author": "houleelen",
+  "repository": "https://github.com/Houleelen/Context-glance-For-Antigravity",
+  "homepage": "https://github.com/Houleelen/Context-glance-For-Antigravity#readme",
+  "keywords": ["context", "tokens", "sidecar", "dashboard"]
+}

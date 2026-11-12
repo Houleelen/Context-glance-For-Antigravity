@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN" data-palette="host" data-font-size="standard">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="color-scheme" content="light dark">
+  <title>上下文仪表盘</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/preload.js" defer></script>
+  <script src="/dashboard.js" defer></script>
+</head>
+<body>
+  <main class="dashboard">
+    <header class="header">
+      <div class="heading">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5.5 17.5a9 9 0 1 1 13 0"/><path d="m12 12 4-4"/><circle cx="12" cy="12" r="1.5"/><path d="M8.5 21h7"/></svg></span>
+        <div><p class="brand-kicker">CONTEXT GLANCE</p><h1>上下文仪表盘</h1></div>
+      </div>
+      <button id="refresh" class="icon-button" type="button" title="刷新数据" aria-label="刷新数据"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 7a7 7 0 0 1 11.6-1L20 9M4 15l2.3 3A7 7 0 0 0 17.9 17"/></svg></button>
+    </header>
+
+    <div class="status-line"><span id="status-dot" class="status-dot" aria-hidden="true"></span><span id="status-label" role="status">正在连接</span><span class="readonly">只读</span></div>
+
+    <section class="conversation-model-card" aria-labelledby="current-model-heading">
+      <span class="conversation-model-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="6" width="12" height="12" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 3v3m6-3v3M9 18v3m6-3v3M3 9h3m-3 6h3m12-6h3m-3 6h3"/></svg></span>
+      <div class="conversation-model-copy">
+        <h2 id="current-model-heading">当前对话模型</h2>
+        <strong id="current-model-name" class="conversation-model-name">正在读取</strong>
+        <p id="current-model-status" class="conversation-model-status">等待宿主状态</p>
+        <code id="current-model-id" class="conversation-model-id" hidden></code>
+      </div>
+    </section>
+
+    <section class="usage-card" aria-labelledby="usage-heading">
+      <div class="eyebrow"><h2 id="usage-heading">当前上下文</h2><span id="capacity-source" class="source-tag">容量未设置</span></div>
+      <div class="percentage-row"><span id="percentage" class="percentage">--<span class="percent-sign">%</span></span><span id="usage-health" class="health-badge" data-tone="neutral">等待数据</span></div>
+      <div id="progress" class="progress" role="progressbar" aria-label="上下文容量占比" aria-valuemin="0" aria-valuemax="100" aria-valuetext="暂无数据"><div id="progress-fill" class="progress-fill"></div></div>
+      <div class="usage-count"><span>已用 <strong id="used-count">—</strong></span><span><span id="limit-label">预算</span> <strong id="capacity-count">—</strong><span class="unit"> tokens</span></span></div>
+      <div class="capacity-summary">
+        <div><span class="stat-label"><span id="remaining-label">剩余预算</span> <span class="stat-unit">TOKENS</span></span><strong id="remaining-count" class="remaining-count">—</strong></div>
+        <div class="remaining-share"><span id="available-label" class="stat-label">可用预算</span><strong id="remaining-percent">—</strong></div>
+      </div>
+      <p id="usage-note" class="usage-note">等待当前对话的用量记录。</p>
+    </section>
+
+    <section class="detail-section" aria-labelledby="detail-heading">
+      <div class="section-title"><h2 id="detail-heading">最近请求</h2><span id="model-label" class="model-label" title="当前模型">模型未记录</span></div>
+      <dl class="metrics">
+        <div><dt><span class="metric-icon input-icon" aria-hidden="true"></span>未缓存输入</dt><dd id="input-count">—</dd><span class="metric-caption">输入 tokens</span></div>
+        <div><dt><span class="metric-icon cache-icon" aria-hidden="true"></span>缓存读取</dt><dd id="cache-count">—</dd><span class="metric-caption">占输入 <span id="cache-ratio" class="metric-hint">—</span></span></div>
+        <div><dt><span class="metric-icon output-icon" aria-hidden="true"></span>本次输出</dt><dd id="output-count">—</dd><span class="metric-caption">单独列示</span></div>
+      </dl>
+    </section>
+
+    <section class="trend-section" aria-labelledby="trend-heading">
+      <div class="section-title"><h2 id="trend-heading">近期上下文趋势</h2><span id="trend-delta" class="trend-delta">—</span></div>
+      <div class="chart-wrap"><svg class="trend-chart" viewBox="0 0 320 72" preserveAspectRatio="none" role="img" aria-labelledby="chart-title"><title id="chart-title">暂无上下文用量趋势</title><path class="chart-grid" d="M0 10H320M0 38H320"></path><path class="chart-baseline" d="M0 66H320"></path><polyline id="chart-line" class="chart-line" points=""></polyline><circle id="chart-last" class="chart-last" cx="0" cy="0" r="3" visibility="hidden"></circle></svg><span id="chart-empty" class="chart-empty">有新的用量记录后显示趋势</span></div>
+      <div class="chart-caption"><span id="history-count">等待记录</span><span>较早 <span class="chart-caption-line" aria-hidden="true"></span> 最近</span></div>
+    </section>
+
+    <section class="appearance-section" aria-labelledby="appearance-heading">
+      <div class="section-title"><h2 id="appearance-heading">外观与阅读</h2><span id="palette-label" class="subtle">跟随宿主</span></div>
+      <div class="palette-options" role="group" aria-label="选择配色">
+        <button type="button" class="theme-swatch" data-palette="host" aria-pressed="true" title="跟随宿主配色"><span class="swatch-dot swatch-host" aria-hidden="true"></span><span>跟随宿主</span></button>
+        <button type="button" class="theme-swatch" data-palette="midnight" aria-pressed="false" title="午夜蓝配色"><span class="swatch-dot swatch-midnight" aria-hidden="true"></span><span>午夜蓝</span></button>
+        <button type="button" class="theme-swatch" data-palette="jade" aria-pressed="false" title="翡翠配色"><span class="swatch-dot swatch-jade" aria-hidden="true"></span><span>翡翠</span></button>
+        <button type="button" class="theme-swatch" data-palette="iris" aria-pressed="false" title="鸢尾紫配色"><span class="swatch-dot swatch-iris" aria-hidden="true"></span><span>鸢尾紫</span></button>
+        <button type="button" class="theme-swatch" data-palette="paper" aria-pressed="false" title="暖瓷白配色"><span class="swatch-dot swatch-paper" aria-hidden="true"></span><span>暖瓷白</span></button>
+        <button type="button" class="theme-swatch" data-palette="graphite" aria-pressed="false" title="石墨配色"><span class="swatch-dot swatch-graphite" aria-hidden="true"></span><span>石墨</span></button>
+      </div>
+      <div class="font-options-row"><span class="control-label">字号</span><div class="font-options" role="group" aria-label="选择字体大小"><button type="button" class="font-choice" data-font-size="compact" aria-pressed="false">紧凑</button><button type="button" class="font-choice" data-font-size="standard" aria-pressed="true">标准</button><button type="button" class="font-choice" data-font-size="large" aria-pressed="false">大字</button></div></div>
+    </section>
+
+    <details class="settings-panel">
+      <summary><span>占比计算基准</span><span class="summary-hint">自动 / 自定义</span></summary>
+      <section class="settings-section" aria-labelledby="capacity-heading">
+        <label id="capacity-heading" for="capacity-select">参考值（不修改宿主配置）</label>
+        <select id="capacity-select">
+          <option value="auto">自动读取宿主压缩预算</option>
+          <option value="128000">128,000 tokens</option>
+          <option value="200000">200,000 tokens</option>
+          <option value="256000">256,000 tokens</option>
+          <option value="262144">262,144 tokens</option>
+          <option value="1000000">1,000,000 tokens</option>
+          <option value="1048576">1,048,576 tokens</option>
+          <option value="2097152">2,097,152 tokens</option>
+          <option value="custom">自定义容量</option>
+        </select>
+        <div id="custom-capacity-group" class="custom-capacity" hidden><label class="sr-only" for="custom-capacity">自定义容量（tokens）</label><input id="custom-capacity" type="number" inputmode="numeric" min="1024" max="100000000" step="1" placeholder="输入 token 上限"><button id="apply-capacity" type="button">应用</button></div>
+        <p id="capacity-help" class="settings-help">自动使用宿主压缩预算。手动数值仅改变占比的计算基准，不会改变模型窗口或宿主压缩阈值。</p>
+      </section>
+    </details>
+
+    <details class="info-panel">
+      <summary><span>数据与统计口径</span><span id="step-label" class="summary-hint">—</span></summary>
+      <footer class="footer">
+        <div><span>记录时间</span><time id="updated-at">—</time></div>
+        <div><span>日志更新</span><time id="log-updated-at">—</time></div>
+        <div><span>当前对话</span><span id="conversation-label" class="conversation-label">未绑定</span></div>
+        <p>宿主预算是当前工作上下文的压缩预算，不等于模型标称总窗口。上下文用量来自宿主估算；日志降级时为最近请求的输入与缓存之和。输出单独列示，不累计各轮请求。</p>
+        <p>仅读取本机状态与日志，不发送对话消息。状态更新后刷新，并非逐 token 计数。</p>
+      </footer>
+    </details>
+    <p id="scan-warning" class="scan-warning" hidden>当前仅展示日志尾部可读取的记录。</p>
+    <div class="bottom-caption"><span class="bottom-dot" aria-hidden="true"></span> 本机只读 · 对话独立</div>
+  </main>
+</body>
+</html>
