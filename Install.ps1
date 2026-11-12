@@ -39,7 +39,8 @@ $allowedFiles = @(
     'sidecars/context_glance/index.html',
     'sidecars/context_glance/styles.css',
     'sidecars/context_glance/dashboard.js',
-    'sidecars/context_glance/i18n.js'
+    'sidecars/context_glance/i18n.js',
+    'sidecars/context_glance/lifecycle.mjs'
 )
 $allowedDirectories = @('assets', 'sidecars', 'sidecars/context_glance')
 

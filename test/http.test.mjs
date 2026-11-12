@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
+import { createServer } from 'node:http';
 
 const loader = process.env.CONTEXT_GLANCE_TEST_SDK_LOADER || join(homedir(), '.gemini', 'antigravity', 'lib', 'node_modules', 'sidecar_sdk', 'register_loader.js');
 
@@ -55,4 +56,43 @@ test('宿主SDK集成：页面与快照可读；发送和新建对话接口返�
     assert.equal((await response.json()).error, 'read-only sidecar');
   }
   assert.equal((await fetch(base + '/_sidecar/send-message', { method: 'POST', body: '{}' })).status, 401);
+});
+
+test('实际Sidecar在宿主健康端点消失后自行退出，无需发送退出信号', { skip: !existsSync(loader), timeout: 35000 }, async t => {
+  let seenProbe;
+  const probed = new Promise(resolve => { seenProbe = resolve; });
+  const host = createServer((request, response) => {
+    assert.equal(request.url, '/healthz');
+    // An HTTP response, including a temporarily-not-ready status, proves the
+    // host still exists. Only a lost connection should trigger the watchdog.
+    response.writeHead(503, { Connection: 'close' });
+    response.end('starting');
+    seenProbe();
+  });
+  await new Promise(resolve => host.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise(resolve => host.close(() => resolve())));
+  const main = fileURLToPath(new URL('../plugin/sidecars/context_glance/main.mjs', import.meta.url));
+  const child = spawn(process.execPath, ['--import', pathToFileURL(loader).href, main], {
+    windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'],
+    env: { ...process.env, ANTIGRAVITY_LS_ADDRESS: `127.0.0.1:${host.address().port}`, ANTIGRAVITY_CSRF_TOKEN: 'liveness-test-only', ANTIGRAVITY_SIDECAR_WEB_PORT: '0' },
+  });
+  let output = '';
+  child.stdout.on('data', chunk => { output += chunk.toString(); });
+  child.stderr.on('data', chunk => { output += chunk.toString(); });
+  const exited = new Promise(resolve => child.once('exit', (code, signal) => resolve({ code, signal })));
+  t.after(async () => {
+    if (child.exitCode === null && child.signalCode === null) { child.kill(); await exited; }
+  });
+  const waitBounded = async (promise, ms, message) => {
+    let timer;
+    try { return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(message + '\n' + output)), ms); })]); }
+    finally { clearTimeout(timer); }
+  };
+  await waitBounded(probed, 10000, 'No host health probe');
+  assert.equal(child.exitCode, null, 'HTTP 503 must not terminate the Sidecar');
+  await new Promise(resolve => host.close(resolve));
+  const result = await waitBounded(exited, 24000, 'Sidecar remained alive after host disappeared');
+  assert.equal(result.code, 0);
+  assert.equal(result.signal, null);
+  assert.ok(output.includes('host-disconnected'));
 });

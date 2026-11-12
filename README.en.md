@@ -45,7 +45,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
 
 The default target is `%USERPROFILE%\.gemini\config\plugins\context-glance`. Open **Context Glance / 上下文仪表盘** from the conversation header's **+ / Extensions** menu. Close and reopen the panel after an update; reopen the app if the host has not discovered the plugin yet.
 
-The installer copies nine runtime files plus the two README files and MIT license, then verifies SHA256 hashes. It does not change other plugins or global host settings.
+The installer copies ten runtime files plus the two README files and MIT license, then verifies SHA256 hashes. It does not change other plugins or global host settings.
 
 ```powershell
 .\Install.ps1 -CheckOnly
@@ -87,6 +87,8 @@ If native state is unavailable, the panel falls back to this conversation's loca
 The plugin registers no Skills, Rules, Agents, MCP servers, or Hooks. It does not send chat messages, invoke a model, read other plugins' state, or modify the host database. Its HTTP service binds to loopback only, using a port allocated by the host.
 
 The panel polls about every 1.5 seconds while visible. Polling stops when hidden, and the backend closes idle state subscriptions after about 12 seconds.
+
+Version 1.3.1 also checks the injected host loopback health endpoint about every five seconds. After repeated connection failures, the Sidecar closes its own readers and HTTP service and exits. It never terminates other plugins or the built-in Swarm Sidecar. Hiding a panel while the host is alive does not stop its managed process.
 
 Native usage and model identity rely on internal read-only host interfaces. A host update or permission change may make those interfaces unavailable; the panel then falls back or displays an unknown state. It does not bypass permissions. Extra metadata fields returned by the host are discarded in memory.
 

@@ -1,7 +1,7 @@
 {
   "command": "node",
   "args": ["main.mjs"],
-  "env": { "CONTEXT_GLANCE_UI_VERSION": "1.3.0" },
+  "env": { "CONTEXT_GLANCE_UI_VERSION": "1.3.1" },
   "restart_policy": "always",
   "display_name": "Context Glance / 上下文仪表盘",
   "description": "Read-only context budget, token usage and conversation model. 本机只读，不注入对话。",

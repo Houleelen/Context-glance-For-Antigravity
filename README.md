@@ -45,7 +45,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
 
 默认安装位置为 `%USERPROFILE%\.gemini\config\plugins\context-glance`。在 Antigravity 的会话标题 `+` / 扩展菜单打开 **上下文仪表盘**。更新后关闭并重新打开面板；宿主尚未发现插件时可重新打开应用。
 
-安装器只复制九个运行文件及中英文 README、LICENSE，并核对 SHA256，不修改全局配置或其他插件。检查已安装文件：
+安装器只复制十个运行文件及中英文 README、LICENSE，并核对 SHA256，不修改全局配置或其他插件。检查已安装文件：
 
 ```powershell
 .\Install.ps1 -CheckOnly
@@ -79,6 +79,8 @@ GitHub 子目录安装由 [官方 CLI 更新记录](https://github.com/google-an
 ## 隐私与资源
 
 不注册 Skills、Rules、Agents、MCP 或 Hooks；不发消息、不调用模型、不读取其他插件状态。状态服务仅绑定本机回环地址。面板隐藏后停止轮询，后端约 12 秒空闲后回收订阅。
+
+1.3.1 起每约 5 秒检查注入的宿主本机健康端点。连续连接失败后关闭本插件的订阅与 HTTP 服务并自行退出，降低 Windows 下宿主退出后遗留 Sidecar 的风险。该机制不结束其他插件或内置 Swarm；隐藏面板时宿主仍存活，插件进程继续由宿主管理。
 
 当前用量和模型信息依赖宿主内部只读协议，未来版本可能改变；读取不可用时明确降级或显示未知，不绕过权限。接口字段与限制详见 [数据说明](docs/COMPATIBILITY.md)。
 

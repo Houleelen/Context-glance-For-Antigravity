@@ -25,4 +25,6 @@ Only local state and the current conversation's transcript are read. The plugin 
 
 Internal read-only interfaces can change after a host update. Extra fields returned by metadata interfaces are discarded; only the required metrics and model identity are retained. Hidden panels stop polling, and idle backend subscriptions close after about 12 seconds.
 
+After repeated host connection failures, this Sidecar closes its own readers and HTTP service and exits. It never terminates built-in Swarm or other plugins. Hiding a panel while the host remains alive does not stop its managed process.
+
 Author: houleelen. Licensed under the [MIT License](LICENSE). Source and full documentation: `https://github.com/Houleelen/Context-glance-For-Antigravity`.

@@ -21,6 +21,7 @@
   "plugin/sidecars/context_glance/styles.css",
   "plugin/sidecars/context_glance/dashboard.js",
   "plugin/sidecars/context_glance/i18n.js",
+  "plugin/sidecars/context_glance/lifecycle.mjs",
   "docs/COMPATIBILITY.md",
   "docs/PUBLISHING.md",
   "docs/images/palettes.png",
@@ -32,6 +33,7 @@
   "scripts/check-publish.mjs",
   "scripts/Build-Release.ps1",
   "test/metrics.test.mjs",
+  "test/lifecycle.test.mjs",
   "test/http.test.mjs",
   "test/visual-check.mjs"
 ]

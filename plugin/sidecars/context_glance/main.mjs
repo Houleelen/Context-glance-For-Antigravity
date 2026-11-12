@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SidecarApp, Response } from 'sidecar_sdk';
 import { createSnapshotReader, resolveAppData } from './metrics.mjs';
+import { createHostLivenessMonitor, createShutdownHandler } from './lifecycle.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const app = new SidecarApp();
@@ -41,7 +42,31 @@ app.api('/api/snapshot', async (query) => {
   return response(JSON.stringify(data), 'application/json; charset=utf-8');
 }, 'GET');
 
-await app.run();
+const server = await app.run();
+let hostMonitor;
+const terminate = createShutdownHandler({
+  closeReaders: () => snapshot.close(),
+  closeServer: () => app.close(),
+  forceCloseConnections: () => server.closeAllConnections?.(),
+  exit: code => process.exit(code),
+  timeoutMs: 3000,
+});
+const shutdown = (reason) => {
+  hostMonitor?.stop();
+  console.log(`[context-glance] stopping: ${reason}`);
+  return terminate(reason);
+};
+// Windows may terminate the LS without forwarding a signal to its Sidecars.
+// Monitor only this injected loopback endpoint and exit only our own process.
+try {
+  hostMonitor = createHostLivenessMonitor({
+    address: process.env.ANTIGRAVITY_LS_ADDRESS,
+    onHostGone: () => shutdown('host-disconnected'),
+  });
+  hostMonitor.start();
+} catch {
+  console.warn('[context-glance] host monitoring disabled: invalid loopback address');
+}
 for (const signal of ['SIGINT', 'SIGTERM']) {
-  process.once(signal, async () => { await snapshot.close(); await app.close(); process.exit(0); });
+  process.once(signal, () => { void shutdown(signal); });
 }
