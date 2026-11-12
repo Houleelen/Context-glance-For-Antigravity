@@ -1,8 +1,8 @@
 {
   "name": "context-glance",
-  "displayName": "上下文仪表盘",
-  "description": "在辅助侧栏只读显示当前会话的宿主上下文估算、压缩预算占比与最近请求用量。",
-  "version": "1.2.0",
+  "displayName": "Context Glance · 上下文仪表盘",
+  "description": "Read-only Sidecar dashboard for context compaction budget, token usage, and the latest request's model. 本机只读上下文预算、Token 用量与模型仪表盘。",
+  "version": "1.3.0",
   "logo": "assets/logo.svg",
   "author": "houleelen",
   "license": "MIT",

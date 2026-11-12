@@ -26,6 +26,7 @@ for (const [route, file, contentType] of [
   ['/', 'index.html', 'text/html; charset=utf-8'],
   ['/styles.css', 'styles.css', 'text/css; charset=utf-8'],
   ['/dashboard.js', 'dashboard.js', 'application/javascript; charset=utf-8'],
+  ['/i18n.js', 'i18n.js', 'application/javascript; charset=utf-8'],
 ]) {
   const content = await readFile(join(here, file), 'utf8');
   app.api(route, () => response(content, contentType), 'GET');

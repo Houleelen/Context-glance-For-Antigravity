@@ -1,11 +1,14 @@
 # Context Glance · 上下文仪表盘
 
+**简体中文** | [English](README.en.md)
+
 在 **Antigravity App** 的右侧辅助面板查看上下文压缩预算、剩余 Token、变化趋势与当前对话最近实际请求的模型。所有读取都在本机进行，不发起模型推理，不向对话添加内容。
 
 - **一眼查看预算**：大号占比、剩余预算和容量状态。
 - **请求明细**：未缓存输入、缓存读取、输出分别列示。
 - **模型信息**：展示模型名称、思考档位（宿主名称包含时）与原始模型 ID。
 - **六套配色 / 三档字号**：跟随宿主、午夜蓝、翡翠、鸢尾紫、暖瓷白、石墨；紧凑、标准、大字。
+- **中英文界面**：首次跟随浏览器语言，也可手动选择；语言、配色和字号在面板本地保存。
 - **独立运行**：独立插件目录与宿主分配的端口，可与其他上下文插件并存。
 
 ![六套配色预览（模拟数据）](docs/images/palettes.png)
@@ -42,7 +45,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
 
 默认安装位置为 `%USERPROFILE%\.gemini\config\plugins\context-glance`。在 Antigravity 的会话标题 `+` / 扩展菜单打开 **上下文仪表盘**。更新后关闭并重新打开面板；宿主尚未发现插件时可重新打开应用。
 
-安装器只复制八个运行文件及 README、LICENSE，并核对 SHA256，不修改全局配置或其他插件。检查已安装文件：
+安装器只复制九个运行文件及中英文 README、LICENSE，并核对 SHA256，不修改全局配置或其他插件。检查已安装文件：
 
 ```powershell
 .\Install.ps1 -CheckOnly

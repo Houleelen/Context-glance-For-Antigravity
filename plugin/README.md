@@ -1,6 +1,10 @@
 # Context Glance · 上下文仪表盘
 
+**简体中文** | [English](README.en.md)
+
 在 Antigravity App 的辅助面板查看宿主上下文压缩预算、剩余 Token、请求明细与最近实际请求使用的模型。支持六套配色与三档字号。
+
+支持中英文界面：首次跟随浏览器语言，也可手动切换，并保存选择。
 
 已在 Windows + Antigravity App 2.31.2 实机验证。需要宿主的 Sidecar WebUI、内置 Node 与 Sidecar SDK，无需 npm 依赖。其他版本或桌面平台未做完整验证。
 

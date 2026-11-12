@@ -29,7 +29,7 @@ git init -b main
 git add .
 git status --short
 git diff --cached --stat
-git commit -m "Release Context Glance 1.2.0"
+git commit -m "Release Context Glance 1.3.0"
 git remote add origin https://github.com/Houleelen/Context-glance-For-Antigravity.git
 git push -u origin main
 ```
@@ -46,7 +46,7 @@ git push -u origin main
 
 `Build-Release.ps1` 只按 `scripts/release-files.json` 白名单复制文件，生成带项目根目录的 ZIP 和 SHA256 校验文件。ZIP 解压后进入 `context-glance` 目录即可运行 `Install.ps1`。内部 `SHA256SUMS.txt` 可核对文件内容。
 
-在 GitHub 新建 `v1.2.0` Release，说明可取自 CHANGELOG；附件选择 `dist/context-glance-v1.2.0.zip` 和对应的 `.sha256`。浏览器测试目录不会被打包。
+在 GitHub 新建 `v1.3.0` Release，说明可取自 CHANGELOG；附件选择 `dist/context-glance-v1.3.0.zip` 和对应的 `.sha256`。浏览器测试目录不会被打包。
 
 ## 官方 Marketplace
 

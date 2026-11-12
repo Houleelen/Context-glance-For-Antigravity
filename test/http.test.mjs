@@ -36,7 +36,7 @@ test('宿主SDK集成：页面与快照可读；发送和新建对话接口返�
     });
   });
   const base = `http://127.0.0.1:${port}`;
-  for (const route of ['/', '/styles.css', '/dashboard.js', '/preload.js']) {
+  for (const route of ['/', '/styles.css', '/dashboard.js', '/i18n.js', '/preload.js']) {
     const response = await fetch(base + route);
     assert.equal(response.status, 200, route);
     assert.ok((await response.text()).length > 100);

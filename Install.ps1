@@ -31,13 +31,15 @@ $allowedFiles = @(
     'plugin.json',
     'LICENSE',
     'README.md',
+    'README.en.md',
     'assets/logo.svg',
     'sidecars/context_glance/sidecar.json',
     'sidecars/context_glance/main.mjs',
     'sidecars/context_glance/metrics.mjs',
     'sidecars/context_glance/index.html',
     'sidecars/context_glance/styles.css',
-    'sidecars/context_glance/dashboard.js'
+    'sidecars/context_glance/dashboard.js',
+    'sidecars/context_glance/i18n.js'
 )
 $allowedDirectories = @('assets', 'sidecars', 'sidecars/context_glance')
 
